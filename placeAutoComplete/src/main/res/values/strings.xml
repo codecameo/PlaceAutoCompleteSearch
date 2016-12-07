@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">PlaceAutocomplete</string>
+    <string name="text_location">Location</string>
+    <string name="text_search_location">Search Location</string>
+</resources>
