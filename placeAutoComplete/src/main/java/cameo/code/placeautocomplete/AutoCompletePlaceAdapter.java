@@ -1,5 +1,6 @@
 package cameo.code.placeautocomplete;
 
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,8 +34,12 @@ public class AutoCompletePlaceAdapter extends RecyclerView.Adapter<AutoCompleteP
     }
 
     public void updatePlaceInfo(ArrayList<PlaceModel> places) {
+
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(new AutoCompletePlaceAdapter.MyCallback(mPlaces, places));
+        //mPlaces.clear();
+        //mPlaces.addAll(places);
         mPlaces = places;
-        notifyDataSetChanged();
+        result.dispatchUpdatesTo(this);
     }
 
     public class PlaceViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -66,5 +71,37 @@ public class AutoCompletePlaceAdapter extends RecyclerView.Adapter<AutoCompleteP
 
     public interface onPlaceSelectedListener {
         void onPlaceSelected(PlaceModel placeModel);
+    }
+
+    public class MyCallback extends DiffUtil.Callback {
+
+        private ArrayList<PlaceModel> mOldPlaces, mNewPlaces;
+
+        public MyCallback(ArrayList<PlaceModel> oldPlaces, ArrayList<PlaceModel> newPlaces) {
+            mOldPlaces = oldPlaces;
+            mNewPlaces = newPlaces;
+        }
+
+        @Override
+        public int getOldListSize() {
+            return mOldPlaces.size();
+        }
+
+        @Override
+        public int getNewListSize() {
+            return mNewPlaces.size();
+        }
+
+        @Override
+        public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+            return mOldPlaces.get(oldItemPosition).getPlaceId().equals(mNewPlaces.get(newItemPosition).getPlaceId());
+        }
+
+        @Override
+        public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+            boolean mainPlaceFlag = mOldPlaces.get(oldItemPosition).getMainPlace().equals(mNewPlaces.get(newItemPosition).getMainPlace());
+            boolean secondaryPlaceFlag = mOldPlaces.get(oldItemPosition).getSecondaryPlace().equals(mNewPlaces.get(newItemPosition).getSecondaryPlace());
+            return mainPlaceFlag && secondaryPlaceFlag;
+        }
     }
 }
