@@ -24,14 +24,17 @@ import java.util.ArrayList;
 
 public class BasePlaceAutoCompleteFragment extends Fragment implements AutoCompletePlaceAdapter.onPlaceSelectedListener, TextWatcher {
 
-    protected onPlaceSelectedListener mOnPlaceSelectedListener;
     public static final String TAG_API_KEY = "ApiKey";
+
+    protected onPlaceSelectedListener mOnPlaceSelectedListener;
     protected AutoCompletePlaceReceiver mAutoCompletePlaceReceiver;
     protected ArrayList<PlaceModel> mPlaces;
     protected RecyclerView mRvPlaceList;
     protected AutoCompletePlaceAdapter mPlaceAdapter;
     protected String mQueryText;
     protected PlaceModel mSelectedPlaceModel;
+
+    protected boolean isShowingSearchField;
 
     private Animation mSlideUp;
 
@@ -112,6 +115,10 @@ public class BasePlaceAutoCompleteFragment extends Fragment implements AutoCompl
         } else {
             fetchAutoCompletePlaces();
         }
+    }
+
+    protected void initListeners() {
+        mEtSearchText.addTextChangedListener(this);
     }
 
 

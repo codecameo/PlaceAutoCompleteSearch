@@ -1,14 +1,8 @@
 package cameo.code.placeautocomplete;
 
-import android.app.Fragment;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.ResultReceiver;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +12,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
 
 /**
  * Created by Md. Sifat-Ul Haque on 12/1/2016.
@@ -32,14 +23,13 @@ public class PlaceAutoCompleteFragment extends BasePlaceAutoCompleteFragment imp
 
     private ImageView mIvBack, mIvSearch;
     private TextView mTvTitle;
-    private boolean isShowingSearchField;
     private Animation mSlideIn;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_search_box, container, false);
+        View view = inflater.inflate(R.layout.fragment_search_toolbar, container, false);
 
         initializeView(view);
 
@@ -55,10 +45,11 @@ public class PlaceAutoCompleteFragment extends BasePlaceAutoCompleteFragment imp
         mSlideIn.setDuration(100);
     }
 
-    private void initListeners() {
+    @Override
+    protected void initListeners() {
+        super.initListeners();
         mIvBack.setOnClickListener(this);
         mIvSearch.setOnClickListener(this);
-        mEtSearchText.addTextChangedListener(this);
         mSlideIn.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {

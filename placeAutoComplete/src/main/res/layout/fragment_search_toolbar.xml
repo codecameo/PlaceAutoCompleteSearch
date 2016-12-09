@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:elevation="@dimen/default_6dp"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/white">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_vertical_margin"
+            android:src="@drawable/ic_arrow_back" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/iv_back"
+            android:gravity="center_vertical"
+            android:text="@string/text_location"
+            android:textColor="@color/title_color"
+            android:textSize="@dimen/abc_text_size_medium_material" />
+
+        <ImageView
+            android:id="@+id/iv_search_action"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_vertical_margin"
+            android:src="@drawable/ic_search" />
+
+        <EditText
+            android:textColorHint="@color/sub_title_color"
+            android:hint="@string/text_search_location"
+            android:id="@+id/et_search_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/iv_search_action"
+            android:layout_toRightOf="@id/iv_back"
+            android:textColor="@color/title_color"
+            android:singleLine="true"
+            android:textCursorDrawable="@drawable/cursor"
+            android:theme="@style/SearchEditText"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:visibility="gone"
+        android:id="@+id/rv_place_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white" />
+</LinearLayout>

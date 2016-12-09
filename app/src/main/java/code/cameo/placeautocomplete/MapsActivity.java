@@ -13,6 +13,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import cameo.code.placeautocomplete.PlaceAutoCompleteFragment;
+import cameo.code.placeautocomplete.PlaceAutoCompleteSearchBarFragment;
 import cameo.code.placeautocomplete.PlaceModel;
 
 public class MapsActivity extends FragmentActivity implements
@@ -23,6 +24,7 @@ public class MapsActivity extends FragmentActivity implements
     private PlaceAutoCompleteFragment mAutocompleteFragment;
     private String mMapWebApiKey;
     private CameraPosition cameraPosition;
+    private PlaceAutoCompleteSearchBarFragment mAutocompleteSearchBarFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +49,12 @@ public class MapsActivity extends FragmentActivity implements
 
     private void initListeners() {
         mAutocompleteFragment.setOnPlaceSelectedListener(this);
+        mAutocompleteSearchBarFragment.setOnPlaceSelectedListener(this);
     }
 
     private void initView() {
         mAutocompleteFragment = (PlaceAutoCompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+        mAutocompleteSearchBarFragment = (PlaceAutoCompleteSearchBarFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment_search_bar);
     }
 
 
