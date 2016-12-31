@@ -77,7 +77,7 @@ allprojects {
 Step 2. Add the dependency
 ```groovy
 dependencies {
-	compile 'com.github.codecameo:PlaceAutoCompleteSearch:1.0'
+	compile 'com.github.codecameo:PlaceAutoCompleteSearch:1.0.1'
 }
 ```
 
