@@ -2,6 +2,9 @@
 
 A library for android to show auto place suggestion for the searched text. Support for Android 4.0.3 (API 15) and up.
 
+# Demo :
+<img src="screenshots/sample.gif" width="50%">
+
 # Implementation
 Only 4 steps are required to implement this into your project.
 
@@ -57,9 +60,6 @@ return getString(R.string.google_maps_browser_key);
 }
 ```
 This map API key is not the same API key for android application. This is an unrestricted key. You get your API key from [Here](https://console.developers.google.com/apis/credentials)
-
-# Demo :
-<img src="screenshots/sample.gif" width="50%">
 
 # Gradle
 
