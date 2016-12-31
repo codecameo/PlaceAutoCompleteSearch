@@ -1,8 +1,7 @@
 package code.cameo.placeautocomplete;
 
-import android.os.PersistableBundle;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,11 +30,11 @@ public class MapsActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        initView();
+        //initView();
 
         initVariable();
 
-        initListeners();
+        //initListeners();
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -47,15 +46,15 @@ public class MapsActivity extends FragmentActivity implements
         mMapWebApiKey = getString(R.string.google_maps_browser_key);
     }
 
-    private void initListeners() {
-        mAutocompleteFragment.setOnPlaceSelectedListener(this);
-        mAutocompleteSearchBarFragment.setOnPlaceSelectedListener(this);
+    /*private void initListeners() {
+        //mAutocompleteFragment.setOnPlaceSelectedListener(this);
+        //mAutocompleteSearchBarFragment.setOnPlaceSelectedListener(this);
     }
 
     private void initView() {
         mAutocompleteFragment = (PlaceAutoCompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
         mAutocompleteSearchBarFragment = (PlaceAutoCompleteSearchBarFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment_search_bar);
-    }
+    }*/
 
 
     /**

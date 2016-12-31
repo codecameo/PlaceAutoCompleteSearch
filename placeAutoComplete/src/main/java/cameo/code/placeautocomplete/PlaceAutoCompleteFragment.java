@@ -84,13 +84,14 @@ public class PlaceAutoCompleteFragment extends BasePlaceAutoCompleteFragment imp
     public void onClick(View v) {
         final int id = v.getId();
         if (id == R.id.iv_back) {
-            backActionPerform();
+            performBackAction();
         } else if (id == R.id.iv_search_action) {
             showSearchInputField();
         }
     }
 
-    private void backActionPerform() {
+    @Override
+    protected void performBackAction() {
         if (isShowingSearchField) {
             isShowingSearchField = false;
             mIvSearch.setImageResource(R.drawable.ic_search);

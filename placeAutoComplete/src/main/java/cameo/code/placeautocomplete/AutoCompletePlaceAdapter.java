@@ -42,6 +42,15 @@ public class AutoCompletePlaceAdapter extends RecyclerView.Adapter<AutoCompleteP
         result.dispatchUpdatesTo(this);
     }
 
+    public void setOnPlaceSelectedListener(onPlaceSelectedListener mOnPlaceSelectedListener) {
+        this.mOnPlaceSelectedListener = mOnPlaceSelectedListener;
+    }
+
+
+    public interface onPlaceSelectedListener {
+        void onPlaceSelected(PlaceModel placeModel);
+    }
+
     public class PlaceViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView mTvMainPlace, mTvSecondaryPlace;
@@ -60,17 +69,9 @@ public class AutoCompletePlaceAdapter extends RecyclerView.Adapter<AutoCompleteP
 
         @Override
         public void onClick(View v) {
+            if (getAdapterPosition() != RecyclerView.NO_POSITION)
             mOnPlaceSelectedListener.onPlaceSelected(mPlaces.get(getAdapterPosition()));
         }
-    }
-
-
-    public void setOnPlaceSelectedListener(onPlaceSelectedListener mOnPlaceSelectedListener) {
-        this.mOnPlaceSelectedListener = mOnPlaceSelectedListener;
-    }
-
-    public interface onPlaceSelectedListener {
-        void onPlaceSelected(PlaceModel placeModel);
     }
 
     public class MyCallback extends DiffUtil.Callback {

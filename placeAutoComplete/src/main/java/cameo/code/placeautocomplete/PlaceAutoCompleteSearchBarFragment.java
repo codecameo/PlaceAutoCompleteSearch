@@ -78,7 +78,8 @@ public class PlaceAutoCompleteSearchBarFragment extends BasePlaceAutoCompleteFra
         mEtSearchText.setText("");
     }
 
-    private void performBackAction() {
+    @Override
+    protected void performBackAction() {
         mIvBack.setImageResource(R.drawable.ic_search);
         mEtSearchText.clearFocus();
         Utils.hideKeyboardFromDialog(getActivity(),mEtSearchText);

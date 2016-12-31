@@ -1,10 +1,10 @@
 package cameo.code.placeautocomplete;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.support.annotation.Nullable;
-import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -16,6 +16,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
@@ -25,8 +26,8 @@ import java.util.ArrayList;
 public class BasePlaceAutoCompleteFragment extends Fragment implements AutoCompletePlaceAdapter.onPlaceSelectedListener, TextWatcher {
 
     public static final String TAG_API_KEY = "ApiKey";
+    protected WeakReference<onPlaceSelectedListener> onPlaceSelectedListenerWeakReference;
 
-    protected onPlaceSelectedListener mOnPlaceSelectedListener;
     protected AutoCompletePlaceReceiver mAutoCompletePlaceReceiver;
     protected ArrayList<PlaceModel> mPlaces;
     protected RecyclerView mRvPlaceList;
@@ -35,16 +36,14 @@ public class BasePlaceAutoCompleteFragment extends Fragment implements AutoCompl
     protected PlaceModel mSelectedPlaceModel;
 
     protected boolean isShowingSearchField;
-
-    private Animation mSlideUp;
-
     protected EditText mEtSearchText;
-
+    private Animation mSlideUp;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSlideUp = AnimationUtils.loadAnimation(getActivity(), R.anim.transition_slide_up);
+        setOnPlaceSelectedListener((onPlaceSelectedListener) getActivity());
     }
 
     @Override
@@ -83,11 +82,14 @@ public class BasePlaceAutoCompleteFragment extends Fragment implements AutoCompl
     }
 
     protected void fetchAutoCompletePlaces() {
-        FetchPlacePredictionService.startAutoCompletePlaces(getActivity(), mQueryText, mOnPlaceSelectedListener.getWebApiKey(), mAutoCompletePlaceReceiver);
+
+        if (onPlaceSelectedListenerWeakReference.get() != null)
+            FetchPlacePredictionService.startAutoCompletePlaces(getActivity(), mQueryText, onPlaceSelectedListenerWeakReference.get().getWebApiKey(), mAutoCompletePlaceReceiver);
     }
 
     private void fetchPlaceDetail(PlaceModel placeModel) {
-        FetchPlacePredictionService.startFetchPlaceDetail(getActivity(), placeModel.getPlaceId(), mOnPlaceSelectedListener.getWebApiKey(), mAutoCompletePlaceReceiver);
+        if (onPlaceSelectedListenerWeakReference.get() != null)
+            FetchPlacePredictionService.startFetchPlaceDetail(getActivity(), placeModel.getPlaceId(), onPlaceSelectedListenerWeakReference.get().getWebApiKey(), mAutoCompletePlaceReceiver);
     }
 
     @Override
@@ -121,6 +123,32 @@ public class BasePlaceAutoCompleteFragment extends Fragment implements AutoCompl
         mEtSearchText.addTextChangedListener(this);
     }
 
+    private void updateAutoCompleteList(Bundle resultData) {
+        showPlaceList();
+        mPlaces = (ArrayList<PlaceModel>) resultData.getSerializable(FetchPlacePredictionService.KEY_AUTO_COMPLETE_PLACES);
+        mPlaceAdapter.updatePlaceInfo(mPlaces);
+    }
+
+    private void showPlaceList() {
+        if (mRvPlaceList.getVisibility() == View.GONE && !TextUtils.isEmpty(mQueryText)) {
+            mRvPlaceList.setVisibility(View.VISIBLE);
+            mRvPlaceList.clearAnimation();
+            mRvPlaceList.startAnimation(mSlideUp);
+        }
+    }
+
+    protected void performBackAction() {
+    }
+
+    public void setOnPlaceSelectedListener(onPlaceSelectedListener placeSelectedListener) {
+        onPlaceSelectedListenerWeakReference = new WeakReference<>(placeSelectedListener);
+    }
+
+    public interface onPlaceSelectedListener {
+        void onPlaceSelected(PlaceModel placeModel);
+
+        String getWebApiKey();
+    }
 
     /*****
      * Get Selected address from service
@@ -145,35 +173,13 @@ public class BasePlaceAutoCompleteFragment extends Fragment implements AutoCompl
                 if (resultCode == FetchPlacePredictionService.SUCCESS_RESULT) {
                     mSelectedPlaceModel.setLat(resultData.getDouble(FetchPlacePredictionService.KEY_LAT));
                     mSelectedPlaceModel.setLng(resultData.getDouble(FetchPlacePredictionService.KEY_LNG));
-                    mOnPlaceSelectedListener.onPlaceSelected(mSelectedPlaceModel);
+                    if (onPlaceSelectedListenerWeakReference.get() != null)
+                        onPlaceSelectedListenerWeakReference.get().onPlaceSelected(mSelectedPlaceModel);
+                    //performBackAction();
                 } else {
                     Toast.makeText(getActivity(), "Error Occurred", Toast.LENGTH_SHORT).show();
                 }
             }
         }
-    }
-
-    private void updateAutoCompleteList(Bundle resultData) {
-        showPlaceList();
-        mPlaces = (ArrayList<PlaceModel>) resultData.getSerializable(FetchPlacePredictionService.KEY_AUTO_COMPLETE_PLACES);
-        mPlaceAdapter.updatePlaceInfo(mPlaces);
-    }
-
-    private void showPlaceList() {
-        if (mRvPlaceList.getVisibility() == View.GONE && !TextUtils.isEmpty(mQueryText)) {
-            mRvPlaceList.setVisibility(View.VISIBLE);
-            mRvPlaceList.clearAnimation();
-            mRvPlaceList.startAnimation(mSlideUp);
-        }
-    }
-
-
-    public void setOnPlaceSelectedListener(onPlaceSelectedListener placeSelectedListener) {
-        mOnPlaceSelectedListener = placeSelectedListener;
-    }
-
-    public interface onPlaceSelectedListener {
-        void onPlaceSelected(PlaceModel placeModel);
-        String getWebApiKey();
     }
 }
