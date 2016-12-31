@@ -6,7 +6,6 @@
     android:padding="@dimen/activity_vertical_margin">
 
     <RelativeLayout
-        android:id="@+id/rl_search_box"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@android:color/white"
