@@ -61,3 +61,23 @@ This map API key is not the same API key for android application. This is an unr
 # Demo :
 <img src="screenshots/sample.gif" width="50%">
 
+#### Gradle
+
+Step 1. Add the JitPack repository to your build file. Add it in your root build.gradle at the end of repositories:
+
+```groovy
+allprojects {
+		repositories {
+			...
+			maven { url 'https://www.jitpack.io' }
+		}
+	}
+```
+
+Step 2. Add the dependency
+```groovy
+dependencies {
+	compile 'com.github.codecameo:PlaceAutoCompleteSearch:1.0'
+}
+```
+
