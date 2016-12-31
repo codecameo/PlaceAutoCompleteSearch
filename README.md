@@ -1,7 +1,5 @@
 # PlaceAutoCompleteSearch
 
-[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
-
 A library for android to show auto place suggestion for the searched text. Support for Android 4.0.3 (API 15) and up.
 
 # Implementation
