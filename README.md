@@ -56,4 +56,4 @@ public String getWebApiKey() {
 return getString(R.string.google_maps_browser_key);
 }
 ```
-This map API key is not the same API key for android application. This is an unrestricted key. You get your API key from [Here]("https://console.developers.google.com/apis/credentials")
+This map API key is not the same API key for android application. This is an unrestricted key. You get your API key from [Here](https://console.developers.google.com/apis/credentials)
